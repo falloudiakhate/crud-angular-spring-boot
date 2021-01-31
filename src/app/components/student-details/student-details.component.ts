@@ -12,7 +12,7 @@ export class StudentDetailsComponent implements OnInit {
 
     student : any;
 
-    constructor(private httpClient : HttpClient, private route : ActivatedRoute,private studentService : StudentService) { }
+    constructor(private httpClient : HttpClient, private route : ActivatedRoute,private studentService : StudentService, private router : Router) { }
 
     ngOnInit() {
         this.getStudent(this.route.snapshot.paramMap.get('id'))
@@ -22,6 +22,18 @@ export class StudentDetailsComponent implements OnInit {
         this.studentService.getOneStudent(id).subscribe(
             data =>{
                 this.student = data
+            },
+            error =>{
+                console.log(error)
+            }
+        )
+    }
+
+    deleteStudent() : void{
+        this.studentService.deleteStudent(this.student.id).subscribe(
+            data =>{
+                console.log(data)
+                this.router.navigate(["/"])
             },
             error =>{
                 console.log(error)
